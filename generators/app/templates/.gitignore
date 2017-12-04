@@ -1,0 +1,8 @@
+# Ignore NPM depedencies
+/node_modules
+
+# Ignore user config files
+.nvmrc
+
+# Ignore build and deploy files
+/package

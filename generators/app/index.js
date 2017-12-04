@@ -27,9 +27,45 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
+      this.templatePath('.eslintignore'),
+      this.destinationPath('.eslintignore')
     );
+
+    this.fs.copy(
+      this.templatePath('.eslintrc.js'),
+      this.destinationPath('.eslintrc.js')
+    );
+
+    this.fs.copy(
+      this.templatePath('.gitignore'),
+      this.destinationPath('.gitignore')
+    );
+
+    this.fs.copy(
+      this.templatePath('README.md'),
+      this.destinationPath('README.md')
+    );
+
+    this.fs.copy(
+      this.templatePath('template.yml'),
+      this.destinationPath('template.yml')
+    );
+  }
+
+  installingAwsSdk() {
+    this.npmInstall(['aws-sdk'], { save: true });
+  }
+
+  installingJeffwsService() {
+    this.npmInstall(['jeffws-service@next'], { save: true });
+  }
+
+  installingMochaChai() {
+    this.npmInstall(['mocha', 'chai'], { 'save-dev': true });
+  }
+
+  installingEslint() {
+    this.npmInstall(['eslint'], { 'save-dev': true });
   }
 
   install() {

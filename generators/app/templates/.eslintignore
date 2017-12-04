@@ -1,0 +1,8 @@
+# Include hidden files
+!.*
+
+# Ignore NPM dependencies
+node_modules/*
+
+# Ignore build and deploy files
+package/*
