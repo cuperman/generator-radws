@@ -75,6 +75,6 @@
       "prettier"
     ]
   },
-  "repository": "cuperman/generator-jeffws-generator",
+  "repository": "cuperman/jeffws-generator",
   "license": "MIT"
 }
