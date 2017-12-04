@@ -4,7 +4,7 @@ const uuid = require('uuid/v4');
 const REGION = process.env.REGION;
 const TABLE_NAME = process.env.TABLE_NAME;
 
-const <%= tableClassName %> => Document({
+const <%= tableClassName %> = Document({
   region: REGION,
   tableName: TABLE_NAME,
   partitionKey: 'ID',
