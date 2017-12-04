@@ -2,11 +2,9 @@
   "name": "generator-jeffws",
   "version": "0.0.0",
   "description": "Generator for jeffws applications",
-  "homepage": "",
   "author": {
     "name": "Jeff Cooper",
-    "email": "jeff@cuperman.net",
-    "url": ""
+    "email": "jeff@cuperman.net"
   },
   "files": [
     "generators"
@@ -30,50 +28,13 @@
     "yeoman-test": "^1.7.0"
   },
   "dependencies": {
-    "yeoman-generator": "^2.0.1",
     "chalk": "^2.1.0",
+    "lodash": "^4.17.4",
+    "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
   },
-  "jest": {
-    "testEnvironment": "node"
-  },
   "scripts": {
-    "prepublish": "nsp check",
-    "pretest": "eslint .",
-    "precommit": "lint-staged",
-    "test": "jest"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
-    "env": {
-      "jest": true,
-      "node": true
-    },
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "singleQuote": true,
-          "printWidth": 90
-        }
-      ]
-    },
-    "plugins": [
-      "prettier"
-    ]
+    "test": "eslint ."
   },
   "repository": "cuperman/jeffws-generator",
   "license": "MIT"

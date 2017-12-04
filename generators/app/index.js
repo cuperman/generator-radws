@@ -52,20 +52,24 @@ module.exports = class extends Generator {
     );
   }
 
-  installingAwsSdk() {
-    this.npmInstall(['aws-sdk'], { save: true });
+  installingAppDependencies() {
+    this.npmInstall([
+      'jeffws-service@next',
+      'aws-sdk',
+      'uuid'
+    ], {
+      save: true
+    });
   }
 
-  installingJeffwsService() {
-    this.npmInstall(['jeffws-service@next'], { save: true });
-  }
-
-  installingMochaChai() {
-    this.npmInstall(['mocha', 'chai'], { 'save-dev': true });
-  }
-
-  installingEslint() {
-    this.npmInstall(['eslint'], { 'save-dev': true });
+  installingDevDependencies() {
+    this.npmInstall([
+      'eslint',
+      'mocha',
+      'chai'
+    ], {
+      'save-dev': true
+    });
   }
 
   install() {
