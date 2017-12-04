@@ -1,0 +1,43 @@
+const Resource = require('jeffws-service/resource');
+const { HTTP_CREATED, HTTP_NO_CONTENT, HTTP_OK } = require('jeffws-service/resource/status_codes');
+const <%= tableClassName %> = require('../tables/<%= tableFileName %>');
+
+// POST /<%= resourcePathPlural %>
+exports.create = Resource.handler((request, render) => {
+  return <%= tableClassName %>.create(request.body.<%= resourceVar %>)
+    .then(<%= resourceVar %> => {
+      render({ status: HTTP_CREATED, body: { <%= resourceVar %> } });
+    });
+});
+
+// GET /<%= resourcePathPlural %>
+exports.index = Resource.handler((request, render) => {
+  return <%= tableClassName %>.all()
+    .then(<%= resourceVarPlural %> => {
+      render({ status: HTTP_OK, body: <%= resourceVarPlural %> });
+    });
+});
+
+// GET /<%= resourcePathPlural %>/{<%= resourceIdVar %>}
+exports.show = Resource.handler((request, render) => {
+  return <%= tableClassName %>.find(request.params.<%= resourceIdVar %>)
+    .then(<%= resourceVar %> => {
+      render({ status: HTTP_OK, body: { <%= resourceVar %> } });
+    });
+});
+
+// PATCH/PUT /<%= resourcePathPlural %>/{<%= resourceIdVar %>}
+exports.update = Resource.handler((request, render) => {
+  return <%= tableClassName %>.update(request.params.<%= resourceIdVar %>, request.body.<%= resourceVar %>)
+    .then(<%= resourceVar %> => {
+      render({ status: HTTP_OK, body: { <%= resourceVar %> } });
+    });
+});
+
+// DELETE /<%= resourcePathPlural %>/{<%= resourceIdVar %>}
+exports.destroy = Resource.handler((request, render) => {
+  return <%= tableClassName %>.destroy(request.params.<%= resourceIdVar %>)
+    .then(() => {
+      render({ status: HTTP_NO_CONTENT });
+    });
+});
