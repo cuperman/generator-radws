@@ -4,17 +4,17 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and jeffws-generator using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-jeffws using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
-npm install -g jeffws-generator
+npm install -g generator-jeffws
 ```
 
 Then generate your new project:
 
 ```bash
-yo jeffws-generator
+yo jeffws
 ```
 
 ## Getting To Know Yeoman
@@ -27,11 +27,3 @@ yo jeffws-generator
 ## License
 
 MIT © [Jeff Cooper]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-jeffws-generator.svg
-[npm-url]: https://npmjs.org/package/generator-jeffws-generator
-[travis-image]: https://travis-ci.org/cuperman/generator-jeffws-generator.svg?branch=master
-[travis-url]: https://travis-ci.org/cuperman/generator-jeffws-generator
-[daviddm-image]: https://david-dm.org/cuperman/generator-jeffws-generator.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/cuperman/generator-jeffws-generator
