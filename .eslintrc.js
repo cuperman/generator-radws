@@ -15,8 +15,19 @@ module.exports = {
   },
 
   rules: {
-    'indent':     [ 'error', 2 ],
-    'quotes':     [ 'error', 'single' ],
-    'semi':       [ 'error', 'always' ]
-  }
+    'indent': [ 'error', 2 ],
+    'quotes': [ 'error', 'single' ],
+    'semi':   [ 'error', 'always' ]
+  },
+
+  overrides: [{
+    files: [
+      '**/__tests__/**/*.js',
+      '**/__mocks__/**/*.js',
+      'lib/test/helpers.js'
+    ],
+    env: {
+      jest: true
+    }
+  }]
 };

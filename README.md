@@ -17,12 +17,35 @@ Then generate your new project:
 yo jeffws
 ```
 
-## Getting To Know Yeoman
+## More Generators
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
+### Tables
+
+```bash
+yo jeffws:table ProductCatalog
+```
+
+Optionally, pass in hash and range key information
+
+```bash
+yo jeffws:table Forum Name:String
+yo jeffws:table Thread ForumName:String Subject:String
+yo jeffws:table Reply Id:String ReplyDateTime:String
+```
+
+[reference](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html)
+
+### Handlers
+
+```bash
+yo jeffws:handler
+```
+
+### Routes
+
+```bash
+yo jeffws:route
+```
 
 ## License
 

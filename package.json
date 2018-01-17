@@ -34,7 +34,10 @@
     "yosay": "^2.0.1"
   },
   "scripts": {
-    "test": "eslint ."
+    "jest": "jest",
+    "jest:watch": "jest --watch",
+    "lint": "eslint .",
+    "test": "npm run lint && npm run jest ."
   },
   "repository": "cuperman/jeffws-generator",
   "license": "MIT"

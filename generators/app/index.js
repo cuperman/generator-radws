@@ -45,11 +45,6 @@ module.exports = class extends Generator {
       this.templatePath('README.md'),
       this.destinationPath('README.md')
     );
-
-    this.fs.copy(
-      this.templatePath('template.yml'),
-      this.destinationPath('template.yml')
-    );
   }
 
   installingAppDependencies() {
