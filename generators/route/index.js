@@ -3,6 +3,7 @@
 const Generator = require('yeoman-generator');
 const cloudFormationTemplate = require('../../lib/cloudformation_template');
 const { withCloudFormationTemplates } = require('../../lib/cloudformation_template/yeoman');
+const { omit } = require('lodash');
 
 const {
   apiGatewayDeployment,
@@ -50,52 +51,58 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
     const resourceHandlerName = handlerResourceName(resource, handler);
     const resourceApiUrlName = restApiUrlName();
 
-    const templateDef = cloudFormationTemplate({
-      resources: {
-        [resourceApiName]: apiGatewayRestApi({
-          name: restApiHumanReadableName()
-        }),
+    const allResources = {
+      [resourceApiName]: apiGatewayRestApi({
+        name: restApiHumanReadableName()
+      }),
 
-        [resourceDeploymentName]: apiGatewayDeployment({
-          restApiName: resourceApiName,
-          stageName: STAGE,
-          dependencies: [
-            resourceName
-          ]
-        }),
+      [resourceDeploymentName]: apiGatewayDeployment({
+        restApiName: resourceApiName,
+        stageName: STAGE,
+        dependencies: [
+          resourceName
+        ]
+      }),
 
-        [resourceCollectionPathName]: apiGatewayResource({
-          pathPart: restApiCollectionPathPart(resource),
-          restApiName: resourceApiName
-        }),
+      [resourceCollectionPathName]: apiGatewayResource({
+        pathPart: restApiCollectionPathPart(resource),
+        restApiName: resourceApiName
+      }),
 
-        [resourceMemberPathName]: apiGatewayResource({
-          pathPart: restApiMemberPathPart(resource),
-          restApiName: resourceApiName,
-          parentName: resourceCollectionPathName
-        }),
+      [resourceMemberPathName]: apiGatewayResource({
+        pathPart: restApiMemberPathPart(resource),
+        restApiName: resourceApiName,
+        parentName: resourceCollectionPathName
+      }),
 
-        [resourceName]: apiGatewayMethod({
-          httpMethod: method,
-          restApiName: resourceApiName,
-          resourceName: type === 'member' ? resourceMemberPathName : resourceCollectionPathName,
-          lambdaFunctionName: resourceHandlerName
-        }),
+      [resourceName]: apiGatewayMethod({
+        httpMethod: method,
+        restApiName: resourceApiName,
+        resourceName: (type === 'member') ? resourceMemberPathName : resourceCollectionPathName,
+        lambdaFunctionName: resourceHandlerName
+      }),
 
-        [resourcePermissionName]: lambdaPermission({
-          restApiName: resourceApiName,
-          httpMethod: method,
-          pathMatcher: type === 'member' ? restApiMemberPathMatcher(resource) : restApiCollectionPathMatcher(resource),
-          functionName: resourceHandlerName
-        })
-      },
-      outputs: {
-        [resourceApiUrlName]: {
-          Value: {
-            'Fn::Sub': `https://\${${resourceApiName}}.execute-api.\${AWS::Region}.amazonaws.com/${STAGE}`
-          }
+      [resourcePermissionName]: lambdaPermission({
+        restApiName: resourceApiName,
+        httpMethod: method,
+        pathMatcher: (type === 'member') ? restApiMemberPathMatcher(resource) : restApiCollectionPathMatcher(resource),
+        functionName: resourceHandlerName
+      })
+    };
+
+    const resources = (type === 'member') ? allResources : omit(allResources, resourceMemberPathName);
+
+    const outputs = {
+      [resourceApiUrlName]: {
+        Value: {
+          'Fn::Sub': `https://\${${resourceApiName}}.execute-api.\${AWS::Region}.amazonaws.com/${STAGE}`
         }
       }
+    };
+
+    const templateDef = cloudFormationTemplate({
+      resources,
+      outputs
     });
 
     this.mergeCloudFormationTemplate(templateDef);
