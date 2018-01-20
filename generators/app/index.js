@@ -3,32 +3,45 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const path = require('path');
+const { merge } = require('lodash');
+
+const { appCodePath, appTestPath, appBundleFilePath } = require('../../conventions');
+const { packageName, packageDescription } = require('../../lib/packageJson');
+const cloudFormationTemplate = require('../../lib/cloudformation_template');
 
 module.exports = class extends Generator {
   prompting() {
-
-    // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the geometric ' + chalk.red('jeffws') + ' generator!'
+      'Welcome to the ' + chalk.green('Jeffws') + ' generator!'
     ));
 
-    const prompts = [{
-      type: 'confirm',
-      name: 'someAnswer',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
-
-    return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
+    return this.prompt([{
+      type: 'input',
+      name: 'awsProfile',
+      message: 'Enter AWS profile to use for authentication:',
+      default: 'default'
+    }, {
+      type: 'input',
+      name: 'awsCodeBucket',
+      message: 'Enter S3 bucket to upload application code:'
+    }]).then(props => {
       this.props = props;
     });
   }
 
   writing() {
-    this.fs.copy(
+    const { awsProfile, awsCodeBucket } = this.props;
+    const codeDir = appCodePath();
+    const testDir = appTestPath();
+    const packageDir = appBundleFilePath();
+
+    this.fs.copyTpl(
       this.templatePath('.eslintignore'),
-      this.destinationPath('.eslintignore')
+      this.destinationPath('.eslintignore'),
+      {
+        packageDir
+      }
     );
 
     this.fs.copy(
@@ -36,14 +49,55 @@ module.exports = class extends Generator {
       this.destinationPath('.eslintrc.js')
     );
 
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore')
+      this.destinationPath('.gitignore'),
+      {
+        packageDir
+      }
     );
 
-    this.fs.copy(
+    this.fs.copyTpl(
+      this.templatePath('aws.json'),
+      this.destinationPath('aws.json'),
+      {
+        awsProfile,
+        awsCodeBucket
+      }
+    );
+
+    this.fs.copyTpl(
+      this.templatePath('Jakefile'),
+      this.destinationPath('Jakefile'),
+      {
+        packageDir,
+        packageName,
+        codeDir
+      }
+    );
+
+    this.fs.copyTpl(
       this.templatePath('README.md'),
-      this.destinationPath('README.md')
+      this.destinationPath('README.md'),
+      {
+        packageName,
+        packageDescription
+      }
+    );
+
+    this.fs.write(
+      path.resolve(codeDir, '.keep'),
+      ''
+    );
+
+    this.fs.write(
+      path.resolve(testDir, '.keep'),
+      ''
+    );
+
+    this.fs.writeJSON(
+      'template.json',
+      cloudFormationTemplate()
     );
   }
 
@@ -61,13 +115,35 @@ module.exports = class extends Generator {
     this.npmInstall([
       'eslint',
       'mocha',
-      'chai'
+      'chai',
+      'jake'
     ], {
       'save-dev': true
     });
   }
 
   install() {
-    this.installDependencies();
+    this.installDependencies({
+      npm: true,
+      bower: false,
+      yarn: false
+    });
+  }
+
+  addPackageScripts() {
+    const packageFile = path.resolve(process.cwd(), 'package.json');
+    const packageJson = this.fs.readJSON(packageFile);
+
+    const packageScripts = {
+      build: 'jake build',
+      clean: 'jake clean',
+      deploy: 'jake deploy',
+      destroy: 'jake destroy',
+      test: 'npm run test:lint && npm run test:unit',
+      'test:lint': 'eslint .',
+      'test:unit': 'mocha'
+    };
+
+    this.fs.writeJSON(packageFile, merge({}, packageJson, { scripts: packageScripts }));
   }
 };

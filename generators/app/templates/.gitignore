@@ -5,4 +5,4 @@
 .nvmrc
 
 # Ignore build and deploy files
-/package
+/<%= packageDir %>

@@ -17,7 +17,7 @@ Then generate your new project:
 yo jeffws
 ```
 
-## More Generators
+## More Details
 
 ### Tables
 
@@ -46,6 +46,10 @@ yo jeffws:handler
 ```bash
 yo jeffws:route
 ```
+
+### CRUD API Scaffold
+
+### Secrets
 
 ## License
 
