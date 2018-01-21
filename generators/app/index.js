@@ -103,9 +103,9 @@ module.exports = class extends Generator {
 
   installingAppDependencies() {
     this.npmInstall([
-      'jeffws-service@next',
+      // 'jeffws-service@next',
       'aws-sdk',
-      'uuid'
+      // 'uuid'
     ], {
       save: true
     });

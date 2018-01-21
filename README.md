@@ -17,6 +17,8 @@ Then generate your new project:
 yo jeffws
 ```
 
+You will be prompted for a profile and a code bucket.  The profile is used when executing aws cli commands, and the code bucket is the s3 bucket that is used to upload your application code.
+
 ## More Details
 
 ### Tables
@@ -28,9 +30,9 @@ yo jeffws:table ProductCatalog
 Optionally, pass in hash and range key information
 
 ```bash
-yo jeffws:table Forum Name:String
-yo jeffws:table Thread ForumName:String Subject:String
-yo jeffws:table Reply Id:String ReplyDateTime:String
+yo jeffws:table Forum --hash Name:String
+yo jeffws:table Thread --hash ForumName:String --range Subject:String
+yo jeffws:table Reply --hash Id:String --range ReplyDateTime:String
 ```
 
 [reference](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.CreateTables.html)
