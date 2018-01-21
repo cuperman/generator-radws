@@ -12,11 +12,12 @@ describe('route conventions:', () => {
   // resource-specific
   itExpects(execute(subject.restApiCollectionPathName, 'list item')).toEqual('ListItemRestApiCollection');
   itExpects(execute(subject.restApiMemberPathName, 'list item')).toEqual('ListItemRestApiMember');
-  itExpects(execute(subject.restApiMethodName, 'list item', 'get')).toEqual('ListItemRestApiMethodGet');
-  itExpects(execute(subject.restApiLambdaPermissionName, 'list item', 'get')).toEqual('ListItemRestApiPermitMethodGet');
+  itExpects(execute(subject.restApiMethodName, 'list item', 'get')).toEqual('ListItemRestApiMethodCollectionGet');
+  itExpects(execute(subject.restApiMethodName, 'list item', 'get', 'member')).toEqual('ListItemRestApiMethodMemberGet');
+  itExpects(execute(subject.restApiLambdaPermissionName, 'list item', 'get')).toEqual('ListItemRestApiPermitMethodCollectionGet');
+  itExpects(execute(subject.restApiLambdaPermissionName, 'list item', 'get', 'member')).toEqual('ListItemRestApiPermitMethodMemberGet');
   itExpects(execute(subject.restApiCollectionPathPart, 'list item')).toEqual('list_item');
   itExpects(execute(subject.restApiCollectionPathMatcher, 'list item')).toEqual('list_item');
   itExpects(execute(subject.restApiMemberPathPart, 'list item')).toEqual('{listItemId}');
   itExpects(execute(subject.restApiMemberPathMatcher, 'list item')).toEqual('list_item/*');
-
 });

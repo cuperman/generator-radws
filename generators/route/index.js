@@ -34,20 +34,37 @@ const STAGE = 'prod';
 module.exports = class extends withCloudFormationTemplates(Generator) {
   constructor(args, opts) {
     super(args, opts);
-    this.argument('resource', { type: String, required: true });
-    this.argument('method', { type: String, required: true });
-    this.argument('handler', { type: String, required: true });
-    this.argument('type', { type: String, required: false, default: 'collection' });
+
+    this.argument('resource', {
+      type: String,
+      required: true
+    });
+
+    this.argument('method', {
+      type: String,
+      required: true
+    });
+
+    this.argument('handler', {
+      type: String,
+      required: true
+    });
+
+    this.option('member', {
+      type: Boolean,
+      default: false
+    });
   }
 
   updateCloudFormationTemplate() {
-    const { resource, method, handler, type } = this.options;
+    const { resource, method, handler, member } = this.options;
+    const type = member ? 'member' : 'collection';
     const resourceApiName = restApiName();
     const resourceDeploymentName = restApiDeploymentName();
     const resourceCollectionPathName = restApiCollectionPathName(resource);
     const resourceMemberPathName = restApiMemberPathName(resource);
-    const resourceName = restApiMethodName(resource, method);
-    const resourcePermissionName = restApiLambdaPermissionName(resource, method);
+    const resourceName = restApiMethodName(resource, method, type);
+    const resourcePermissionName = restApiLambdaPermissionName(resource, method, type);
     const resourceHandlerName = handlerResourceName(resource, handler);
     const resourceApiUrlName = restApiUrlName();
 
@@ -78,19 +95,19 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       [resourceName]: apiGatewayMethod({
         httpMethod: method,
         restApiName: resourceApiName,
-        resourceName: (type === 'member') ? resourceMemberPathName : resourceCollectionPathName,
+        resourceName: (member) ? resourceMemberPathName : resourceCollectionPathName,
         lambdaFunctionName: resourceHandlerName
       }),
 
       [resourcePermissionName]: lambdaPermission({
         restApiName: resourceApiName,
         httpMethod: method,
-        pathMatcher: (type === 'member') ? restApiMemberPathMatcher(resource) : restApiCollectionPathMatcher(resource),
+        pathMatcher: (member) ? restApiMemberPathMatcher(resource) : restApiCollectionPathMatcher(resource),
         functionName: resourceHandlerName
       })
     };
 
-    const resources = (type === 'member') ? allResources : omit(allResources, resourceMemberPathName);
+    const resources = (member) ? allResources : omit(allResources, resourceMemberPathName);
 
     const outputs = {
       [resourceApiUrlName]: {

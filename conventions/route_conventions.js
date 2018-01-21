@@ -4,6 +4,13 @@ const { packageName } = require('../lib/packageJson');
 const { camelCaps, camelCase, snakeCase } = require('../lib/casing');
 const { capitalize, join, words } = require('lodash');
 
+function typeName(type = '') {
+  if (type.toLowerCase() === 'member') {
+    return 'Member';
+  }
+  return 'Collection';
+}
+
 module.exports = {
   // package-specific
   restApiName: () => `${camelCaps(packageName)}RestApi`,
@@ -14,8 +21,8 @@ module.exports = {
   // resource-specific
   restApiCollectionPathName: (resource) => `${camelCaps(resource)}RestApiCollection`,
   restApiMemberPathName: (resource) => `${camelCaps(resource)}RestApiMember`,
-  restApiMethodName: (resource, method) => `${camelCaps(resource)}RestApiMethod${camelCaps(method)}`,
-  restApiLambdaPermissionName: (resource, method) => `${camelCaps(resource)}RestApiPermitMethod${camelCaps(method)}`,
+  restApiMethodName: (resource, method, type) => `${camelCaps(resource)}RestApiMethod${typeName(type)}${camelCaps(method)}`,
+  restApiLambdaPermissionName: (resource, method, type) => `${camelCaps(resource)}RestApiPermitMethod${typeName(type)}${camelCaps(method)}`,
   restApiCollectionPathPart: (resource) => snakeCase(resource),
   restApiMemberPathPart: (resource) => `{${camelCase(resource)}Id}`,
   restApiCollectionPathMatcher: (resource) => snakeCase(resource),
