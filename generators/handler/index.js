@@ -4,66 +4,83 @@ const Generator = require('yeoman-generator');
 const path = require('path');
 const cloudFormationTemplate = require('../../lib/cloudformation_template');
 const { withCloudFormationTemplates } = require('../../lib/cloudformation_template/yeoman');
-
 const { iamRole, lambdaFunction } = require('../../lib/cloudformation_template/resources');
 
 const {
   handlerFilePath,
   handlerFileBaseName,
   handlerFileExtension,
+  handlerFunctionName,
   handlerResourceName,
   handlerRoleResourceName,
-  handlerFunctionName,
   appBundleFilePath,
   appBundleFileBaseName,
-  appBundleFileExtension
+  appBundleFileExtension,
+  tableResourceName,
+  tableEnvVarName
 } = require('../../conventions');
 
-const HANDLER_TEMPLATE = 'handler_simple.js';
+const HANDLER_TEMPLATE = 'handler.js.ejs';
 const HANDLER_RUNTIME = 'nodejs6.10';
 
 module.exports = class extends withCloudFormationTemplates(Generator) {
   constructor(args, opts) {
     super(args, opts);
-    this.argument('resource', { type: String, required: true });
-    this.argument('handler', { type: String, required: true });
+
+    this.argument('resource', {
+      type: String,
+      required: true
+    });
+
+    this.argument('handler', {
+      type: String,
+      required: true
+    });
+
+    this.option('table-access', {
+      type: Boolean,
+      default: false
+    });
   }
 
   writing() {
-    const { resource, handler } = this.options;
-    const handlerFilename = [handlerFileBaseName(resource), handlerFileExtension()].join('.');
-    const destinationPath = path.resolve(handlerFilePath(), handlerFilename);
-    const functionName = handlerFunctionName(handler);
+    const { resource, handler, tableAccess } = this.options;
+    const handlerFilename = [handlerFileBaseName(resource, handler), handlerFileExtension()].join('.');
+    const destinationPath = path.resolve(handlerFilePath(resource), handlerFilename);
 
     this.fs.copyTpl(
       this.templatePath(HANDLER_TEMPLATE),
       this.destinationPath(destinationPath),
       {
-        handlerFunctionName: functionName
+        tableAccess
       }
     );
   }
 
   updateCloudFormationTemplate() {
-    const { resource, handler } = this.options;
+    const { resource, handler, tableAccess } = this.options;
     const resourceName = handlerResourceName(resource, handler);
-    const roleResourceName = handlerRoleResourceName(resource);
+    const resourceTableName = tableResourceName(resource);
+    const resourceTableEnvVarName = tableEnvVarName(resource);
+    const roleResourceName = handlerRoleResourceName(resource, handler);
 
-    const policies = [];
-    const environment = {};
+    const tablePolicies = [
+      'AmazonDynamoDBFullAccess'
+    ];
 
-    // if data accessor, add these:
-    // policies: [
-    //   POLICY_AMAZON_DYNAMODB_FULL_ACCESS
-    // ],
-    // environment: {
-    //   [TableEnvVarName]: {
-    //     Ref: TableName
-    //   }
-    // }
+    const tableEnvVars = {
+      REGION: {
+        Ref: 'AWS::Region'
+      },
+      [resourceTableEnvVarName]: {
+        Ref: resourceTableName
+      }
+    };
 
     const codeUri = ['.', appBundleFilePath(), [appBundleFileBaseName(), appBundleFileExtension()].join('.')].join('/');
-    const handlerFunctionPath = [handlerFilePath(), [handlerFileBaseName(resource), handlerFunctionName(handler)].join('.')].join('/');
+    const handlerFunctionPath = [handlerFilePath(resource), [handlerFileBaseName(resource, handler), handlerFunctionName()].join('.')].join('/');
+    const policies = tableAccess ? tablePolicies : [];
+    const environment = tableAccess ? tableEnvVars : {};
 
     const templateDef = cloudFormationTemplate({
       resources: {

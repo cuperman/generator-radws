@@ -1,12 +1,12 @@
 'use strict';
 
-const { snakeCase, camelCase, camelCaps } = require('../lib/casing');
+const { snakeCase, camelCaps } = require('../lib/casing');
 
 module.exports = {
-  handlerFilePath: () => 'app/handlers',
-  handlerFileBaseName: (resource) => `${snakeCase(resource)}_handlers`,
+  handlerFilePath: (resource) => `app/${snakeCase(resource)}/handlers`,
+  handlerFileBaseName: (resource, handler) => [snakeCase(resource), snakeCase(handler)].join('_'),
   handlerFileExtension: () => 'js',
-  handlerFunctionName: (handler) => `${camelCase(handler)}`,
+  handlerFunctionName: () => 'handler',
   handlerResourceName: (resource, handler) => `${camelCaps(resource)}${camelCaps(handler)}Handler`,
   handlerRoleResourceName: (resource, handler) => `${camelCaps(resource)}${camelCaps(handler)}HandlerRole`
 };

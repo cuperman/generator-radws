@@ -52,9 +52,7 @@ namespace('code', () => {
     });
   });
 
-  task('build', [CODE_PATH], () => {
-    jake.logger.log('build');
-  });
+  task('build', [CODE_PATH]);
 
   task('clean', [], () => {
     jake.rmRf(PACKAGE_DIR);
