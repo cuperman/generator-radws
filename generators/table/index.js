@@ -13,7 +13,8 @@ const {
   tableFileBaseName,
   tableFileExtension,
   tableResourceName,
-  tableEnvVarName
+  tableEnvVarName,
+  tableTitle
 } = require('../../conventions');
 
 const TABLE_TEMPLATE = 'table.js.ejs';
@@ -39,27 +40,33 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
   }
 
   writing() {
-    const { resource } = this.options;
+    const { resource, hash, range } = this.options;
     const tableFilename = [tableFileBaseName(resource), tableFileExtension()].join('.');
     const destinationPath = path.resolve(tableFilePath(resource), tableFilename);
+
+    const [hashKeyName, hashKeyType] = hash.split(':');
+    const [rangeKeyName, rangeKeyType] = (range || '').split(':');
 
     this.fs.copyTpl(
       this.templatePath(TABLE_TEMPLATE),
       this.destinationPath(destinationPath),
       {
-        tableEnvVarName: tableEnvVarName(resource)
+        tableEnvVarName: tableEnvVarName(resource),
+        tableTitle: tableTitle(resource),
+        hashKeyName,
+        hashKeyType,
+        rangeKeyName,
+        rangeKeyType
       }
     );
   }
 
   updateCloudFormationTemplate() {
-    const { resource } = this.options;
+    const { resource, hash, range } = this.options;
     const resourceName = tableResourceName(resource);
-    const hashKeyDescriptor = this.options.hash;
-    const rangeKeyDescriptor = this.options.range || '';
 
-    const [hashKeyName, hashKeyType] = hashKeyDescriptor.split(':');
-    const [rangeKeyName, rangeKeyType] = rangeKeyDescriptor.split(':');
+    const [hashKeyName, hashKeyType] = hash.split(':');
+    const [rangeKeyName, rangeKeyType] = (range || '').split(':');
 
     const templateDef = cloudFormationTemplate({
       resources: {
