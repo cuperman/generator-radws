@@ -97,7 +97,15 @@ module.exports = class extends Generator {
 
     this.fs.writeJSON(
       'template.json',
-      cloudFormationTemplate()
+      cloudFormationTemplate({
+        outputs: {
+          AwsPartition: { Value: { Ref: 'AWS::Partition' } },
+          AwsRegion: { Value: { Ref: 'AWS::Region' } },
+          AwsStackId: { Value: { Ref: 'AWS::StackId' } },
+          AwsStackName: { Value: { Ref: 'AWS::StackName' } },
+          AwsUrlSuffix: { Value: { Ref: 'AWS::URLSuffix' } }
+        }
+      })
     );
   }
 
