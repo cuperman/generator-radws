@@ -51,14 +51,15 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
     });
 
     this.option('member', {
-      type: Boolean,
-      default: false
+      type: String,
+      default: undefined
     });
   }
 
   updateCloudFormationTemplate() {
     const { resource, method, handler, member } = this.options;
     const type = member ? 'member' : 'collection';
+    const hashKey = (member == 'true') ? undefined : member;
     const resourceApiName = restApiName();
     const resourceDeploymentName = restApiDeploymentName();
     const resourceCollectionPathName = restApiCollectionPathName(resource);
@@ -87,7 +88,7 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       }),
 
       [resourceMemberPathName]: apiGatewayResource({
-        pathPart: restApiMemberPathPart(resource),
+        pathPart: restApiMemberPathPart(resource, hashKey),
         restApiName: resourceApiName,
         parentName: resourceCollectionPathName
       }),

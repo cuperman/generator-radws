@@ -24,7 +24,7 @@ module.exports = {
   restApiMethodName: (resource, method, type) => `${camelCaps(resource)}RestApiMethod${typeName(type)}${camelCaps(method)}`,
   restApiLambdaPermissionName: (resource, method, type) => `${camelCaps(resource)}RestApiPermitMethod${typeName(type)}${camelCaps(method)}`,
   restApiCollectionPathPart: (resource) => snakeCase(resource),
-  restApiMemberPathPart: (resource) => `{${camelCase(resource)}HashKey}`,
+  restApiMemberPathPart: (resource, hashKey = 'HashKey') => `{${camelCase(resource)}${camelCaps(hashKey)}}`,
   restApiCollectionPathMatcher: (resource) => snakeCase(resource),
   restApiMemberPathMatcher: (resource) => `${snakeCase(resource)}/*`
 };
