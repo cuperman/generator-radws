@@ -29,7 +29,7 @@ const {
   restApiUrlName
 } = require('../../conventions');
 
-const STAGE = 'prod';
+const STAGE = 'dev';
 
 module.exports = class extends withCloudFormationTemplates(Generator) {
   constructor(args, opts) {
