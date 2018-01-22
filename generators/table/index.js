@@ -12,11 +12,11 @@ const {
   tableFilePath,
   tableFileBaseName,
   tableFileExtension,
-  tableClassName,
-  tableResourceName
+  tableResourceName,
+  tableEnvVarName
 } = require('../../conventions');
 
-const TABLE_TEMPLATE = 'table.js';
+const TABLE_TEMPLATE = 'table.js.ejs';
 
 module.exports = class extends withCloudFormationTemplates(Generator) {
   constructor(args, opts) {
@@ -47,7 +47,7 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       this.templatePath(TABLE_TEMPLATE),
       this.destinationPath(destinationPath),
       {
-        tableClassName: tableClassName(resource)
+        tableEnvVarName: tableEnvVarName(resource)
       }
     );
   }

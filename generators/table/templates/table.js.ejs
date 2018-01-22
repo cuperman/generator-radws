@@ -1,0 +1,24 @@
+'use strict';
+
+const { DynamoDB } = require('aws-sdk');
+
+const REGION = process.env.REGION;
+const <%= tableEnvVarName %> = process.env.<%= tableEnvVarName %>;
+
+const docClient = new DynamoDB.DocumentClient({
+  apiVersion: '2012-08-10',
+  region: REGION
+});
+
+const defaultParams = {
+  TableName: TABLE_NAME
+};
+
+module.exports = {
+  delete: (params, callback) => docClient.delete(Object.assign({}, defaultParams, params), callback),
+  get: (params, callback) => docClient.get(Object.assign({}, defaultParams, params), callback),
+  put: (params, callback) => docClient.put(Object.assign({}, defaultParams, params), callback),
+  query: (params, callback) => docClient.query(Object.assign({}, defaultParams, params), callback),
+  scan: (params, callback) => docClient.scan(Object.assign({}, defaultParams, params), callback),
+  update: (params, callback) => docClient.update(Object.assign({}, defaultParams, params), callback)
+};
