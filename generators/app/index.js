@@ -37,7 +37,7 @@ module.exports = class extends Generator {
     const packageDir = appBundleFilePath();
 
     this.fs.copyTpl(
-      this.templatePath('.eslintignore'),
+      this.templatePath('eslintignore.ejs'),
       this.destinationPath('.eslintignore'),
       {
         packageDir
@@ -45,12 +45,12 @@ module.exports = class extends Generator {
     );
 
     this.fs.copy(
-      this.templatePath('.eslintrc.js'),
+      this.templatePath('eslintrc.js'),
       this.destinationPath('.eslintrc.js')
     );
 
     this.fs.copyTpl(
-      this.templatePath('.gitignore'),
+      this.templatePath('gitignore.ejs'),
       this.destinationPath('.gitignore'),
       {
         packageDir
@@ -58,7 +58,7 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('aws.json'),
+      this.templatePath('aws.json.ejs'),
       this.destinationPath('aws.json'),
       {
         awsProfile,
@@ -67,7 +67,7 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('Jakefile'),
+      this.templatePath('Jakefile.ejs'),
       this.destinationPath('Jakefile'),
       {
         packageDir,
@@ -77,7 +77,7 @@ module.exports = class extends Generator {
     );
 
     this.fs.copyTpl(
-      this.templatePath('README.md'),
+      this.templatePath('README.md.ejs'),
       this.destinationPath('README.md'),
       {
         packageName,
@@ -111,9 +111,7 @@ module.exports = class extends Generator {
 
   installingAppDependencies() {
     this.npmInstall([
-      // 'radws-service@next',
       'aws-sdk',
-      // 'uuid'
     ], {
       save: true
     });
