@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { snakeCase, screamingSnakeCase, camelCaps } = require('../lib/casing');
+const { snakeCase, screamingSnakeCase, camelCaps, camelCase } = require('../lib/casing');
 const { capitalize } = require('lodash');
 
 module.exports = {
@@ -10,6 +10,7 @@ module.exports = {
   tableFileExtension: () => 'js',
   tableResourceName: (resource) => `${camelCaps(resource)}Table`,
   tableClassName: (resource) => `${camelCaps(resource)}Table`,
+  tableVariableName: (resource) => `${camelCase(resource)}Table`,
   tableEnvVarName: (resource) => `${screamingSnakeCase(resource)}_TABLE`,
   tableTitle: (resource) => `${capitalize(resource)} table`
 };

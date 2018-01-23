@@ -17,6 +17,8 @@ const {
   appBundleFileBaseName,
   appBundleFileExtension,
   tableResourceName,
+  tableFileBaseName,
+  tableVariableName,
   tableEnvVarName
 } = require('../../conventions');
 
@@ -46,13 +48,16 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
   writing() {
     const { resource, handler, tableAccess } = this.options;
     const handlerFilename = [handlerFileBaseName(resource, handler), handlerFileExtension()].join('.');
-    const destinationPath = path.resolve(handlerFilePath(resource), handlerFilename);
+    const destinationPath = path.join(handlerFilePath(resource), handlerFilename);
 
     this.fs.copyTpl(
       this.templatePath(HANDLER_TEMPLATE),
       this.destinationPath(destinationPath),
       {
-        tableAccess
+        tableAccess,
+        tableFileBaseName: tableFileBaseName(resource),
+        tableVariableName: tableVariableName(resource),
+        handler: destinationPath
       }
     );
   }

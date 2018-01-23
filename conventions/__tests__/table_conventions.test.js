@@ -8,6 +8,7 @@ describe('table conventions:', () => {
   itExpects(execute(subject.tableFileExtension)).toEqual('js');
   itExpects(execute(subject.tableResourceName, 'list item')).toEqual('ListItemTable');
   itExpects(execute(subject.tableClassName, 'list item')).toEqual('ListItemTable');
+  itExpects(execute(subject.tableVariableName, 'list item')).toEqual('listItemTable');
   itExpects(execute(subject.tableEnvVarName, 'list item')).toEqual('LIST_ITEM_TABLE');
   itExpects(execute(subject.tableTitle, 'list item')).toEqual('List item table');
 });
