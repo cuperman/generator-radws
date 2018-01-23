@@ -19,9 +19,9 @@ describe('route conventions:', () => {
   itExpects(execute(subject.restApiCollectionPathPart, 'list item')).toEqual('list_item');
   itExpects(execute(subject.restApiCollectionPathMatcher, 'list item')).toEqual('list_item');
   itExpects(execute(subject.restApiCollectionPathMatcher, 'list item')).toEqual('list_item');
-  itExpects(execute(subject.restApiCollectionPathMatcher, 'list item', 'forum')).toEqual('forum/*/list_item');
+  itExpects(execute(subject.restApiCollectionPathMatcher, 'list item', 'forum/*/thread/*')).toEqual('forum/*/thread/*/list_item');
   itExpects(execute(subject.restApiMemberPathPart, 'list item')).toEqual('{listItemKey}');
   itExpects(execute(subject.restApiMemberPathPart, 'list item', 'name')).toEqual('{listItemName}');
   itExpects(execute(subject.restApiMemberPathMatcher, 'list item')).toEqual('list_item/*');
-  itExpects(execute(subject.restApiMemberPathMatcher, 'list item', 'forum')).toEqual('forum/*/list_item/*');
+  itExpects(execute(subject.restApiMemberPathMatcher, 'list item', 'forum/*/thread/*')).toEqual('forum/*/thread/*/list_item/*');
 });
