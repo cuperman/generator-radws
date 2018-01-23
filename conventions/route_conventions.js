@@ -15,7 +15,7 @@ module.exports = {
   // package-specific
   restApiName: () => `${camelCaps(packageName)}RestApi`,
   restApiDeploymentName: () => `${camelCaps(packageName)}RestApiDeployment`,
-  restApiHumanReadableName: () => capitalize(join(words([packageName, 'API']), ' ')),
+  restApiHumanReadableName: () => capitalize(join(words(packageName), ' ')),
   restApiUrlName: (stage) => `${camelCaps(packageName)}RestApiUrl${camelCaps(stage)}`,
 
   // resource-specific

@@ -6,7 +6,7 @@ describe('route conventions:', () => {
   // package-specific
   itExpects(execute(subject.restApiName)).toEqual('GeneratorJeffwsRestApi');
   itExpects(execute(subject.restApiDeploymentName)).toEqual('GeneratorJeffwsRestApiDeployment');
-  itExpects(execute(subject.restApiHumanReadableName)).toEqual('Generator jeffws api');
+  itExpects(execute(subject.restApiHumanReadableName)).toEqual('Generator jeffws');
   itExpects(execute(subject.restApiUrlName, 'prod')).toEqual('GeneratorJeffwsRestApiUrlProd');
 
   // resource-specific
