@@ -31,8 +31,8 @@ const {
 
 const STAGE = 'dev';
 
-function getParentResourceName(throughResource, throughHashKey) {
-  if (throughResource && throughHashKey) {
+function getParentResourceName(throughResource, throughKey) {
+  if (throughResource && throughKey) {
     return restApiMemberPathName(throughResource);
   } else if (throughResource) {
     return restApiCollectionPathName(throughResource);
@@ -74,9 +74,9 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
     const { resource, method, handler, member, through } = this.options;
 
     const type = member ? 'member' : 'collection';
-    const hashKey = (member == 'true') ? undefined : member;
+    const key = (member == 'true') ? undefined : member;
 
-    const [throughResource, throughHashKey] = (through || '').split('.');
+    const [throughResource, throughKey] = (through || '').split('.');
 
     const resourceApiName = restApiName();
     const resourceDeploymentName = restApiDeploymentName();
@@ -103,11 +103,11 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       [resourceCollectionPathName]: apiGatewayResource({
         pathPart: restApiCollectionPathPart(resource),
         restApiName: resourceApiName,
-        parentName: getParentResourceName(throughResource, throughHashKey)
+        parentName: getParentResourceName(throughResource, throughKey)
       }),
 
       [resourceMemberPathName]: apiGatewayResource({
-        pathPart: restApiMemberPathPart(resource, hashKey),
+        pathPart: restApiMemberPathPart(resource, key),
         restApiName: resourceApiName,
         parentName: resourceCollectionPathName
       }),

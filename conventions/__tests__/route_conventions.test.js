@@ -18,7 +18,7 @@ describe('route conventions:', () => {
   itExpects(execute(subject.restApiLambdaPermissionName, 'list item', 'get', 'member')).toEqual('ListItemRestApiPermitMethodMemberGet');
   itExpects(execute(subject.restApiCollectionPathPart, 'list item')).toEqual('list_item');
   itExpects(execute(subject.restApiCollectionPathMatcher, 'list item')).toEqual('list_item');
-  itExpects(execute(subject.restApiMemberPathPart, 'list item')).toEqual('{listItemHashKey}');
+  itExpects(execute(subject.restApiMemberPathPart, 'list item')).toEqual('{listItemKey}');
   itExpects(execute(subject.restApiMemberPathPart, 'list item', 'name')).toEqual('{listItemName}');
   itExpects(execute(subject.restApiMemberPathMatcher, 'list item')).toEqual('list_item/*');
 });
