@@ -23,7 +23,10 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
   constructor(args, opts) {
     super(args, opts);
 
-    this.argument('resource', { type: String, required: true });
+    this.argument('resource', {
+      type: String,
+      required: true
+    });
 
     this.option('hash', {
       desc: 'Hash key descriptor (format: name:type)',
@@ -35,8 +38,6 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       desc: 'Range key descriptor (format: name:type)',
       type: String
     });
-
-    this.option('range');
   }
 
   writing() {
