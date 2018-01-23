@@ -1,4 +1,4 @@
-const Document = require('jeffws-service/document');
+const Document = require('radws/document');
 const uuid = require('uuid/v4');
 
 const REGION = process.env.REGION;

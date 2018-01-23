@@ -36,19 +36,19 @@ module.exports = class extends Generator {
     const handlerOptions = pickBy({ tableAccess }, opt => opt);
     const routeOptions = pickBy({ through }, opt => opt);
 
-    this.composeWith('jeffws:table', assign({ arguments: [ resource ] }, tableOptions));
+    this.composeWith('radws:table', assign({ arguments: [ resource ] }, tableOptions));
 
-    this.composeWith('jeffws:handler', assign({ arguments: [ resource, 'create'  ] }, handlerOptions));
-    this.composeWith('jeffws:handler', assign({ arguments: [ resource, 'list'    ] }, handlerOptions));
-    this.composeWith('jeffws:handler', assign({ arguments: [ resource, 'show'    ] }, handlerOptions));
-    this.composeWith('jeffws:handler', assign({ arguments: [ resource, 'update'  ] }, handlerOptions));
-    this.composeWith('jeffws:handler', assign({ arguments: [ resource, 'destroy' ] }, handlerOptions));
+    this.composeWith('radws:handler', assign({ arguments: [ resource, 'create'  ] }, handlerOptions));
+    this.composeWith('radws:handler', assign({ arguments: [ resource, 'list'    ] }, handlerOptions));
+    this.composeWith('radws:handler', assign({ arguments: [ resource, 'show'    ] }, handlerOptions));
+    this.composeWith('radws:handler', assign({ arguments: [ resource, 'update'  ] }, handlerOptions));
+    this.composeWith('radws:handler', assign({ arguments: [ resource, 'destroy' ] }, handlerOptions));
 
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'POST',   'create'  ] }, routeOptions));
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'GET',    'list'    ] }, routeOptions));
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'GET',    'show'    ], member }, routeOptions));
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'PUT',    'update'  ], member }, routeOptions));
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'PATCH',  'update'  ], member }, routeOptions));
-    this.composeWith('jeffws:route', assign({ arguments: [ resource, 'DELETE', 'destroy' ], member }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'POST',   'create'  ] }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'GET',    'list'    ] }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'GET',    'show'    ], member }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'PUT',    'update'  ], member }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'PATCH',  'update'  ], member }, routeOptions));
+    this.composeWith('radws:route', assign({ arguments: [ resource, 'DELETE', 'destroy' ], member }, routeOptions));
   }
 };

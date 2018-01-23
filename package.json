@@ -1,7 +1,7 @@
 {
-  "name": "generator-jeffws",
-  "version": "0.0.0",
-  "description": "Generator for jeffws applications",
+  "name": "generator-radws",
+  "version": "1.0.0-alpha.1",
+  "description": "Generators for radws applications",
   "author": {
     "name": "Jeff Cooper",
     "email": "jeff@cuperman.net"
@@ -39,6 +39,6 @@
     "lint": "eslint .",
     "test": "npm run lint && npm run jest ."
   },
-  "repository": "cuperman/jeffws-generator",
+  "repository": "cuperman/generator-radws",
   "license": "MIT"
 }

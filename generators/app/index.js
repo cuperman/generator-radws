@@ -13,7 +13,7 @@ const cloudFormationTemplate = require('../../lib/cloudformation_template');
 module.exports = class extends Generator {
   prompting() {
     this.log(yosay(
-      'Welcome to the ' + chalk.green('Jeffws') + ' generator!'
+      'Welcome to the ' + chalk.green('Radws') + ' generator!'
     ));
 
     return this.prompt([{
@@ -111,7 +111,7 @@ module.exports = class extends Generator {
 
   installingAppDependencies() {
     this.npmInstall([
-      // 'jeffws-service@next',
+      // 'radws-service@next',
       'aws-sdk',
       // 'uuid'
     ], {

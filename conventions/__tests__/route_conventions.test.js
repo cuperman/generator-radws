@@ -4,10 +4,10 @@ const subject = require('../route_conventions');
 
 describe('route conventions:', () => {
   // package-specific
-  itExpects(execute(subject.restApiName)).toEqual('GeneratorJeffwsRestApi');
-  itExpects(execute(subject.restApiDeploymentName)).toEqual('GeneratorJeffwsRestApiDeployment');
-  itExpects(execute(subject.restApiHumanReadableName)).toEqual('Generator jeffws');
-  itExpects(execute(subject.restApiUrlName, 'prod')).toEqual('GeneratorJeffwsRestApiUrlProd');
+  itExpects(execute(subject.restApiName)).toEqual('GeneratorRadwsRestApi');
+  itExpects(execute(subject.restApiDeploymentName)).toEqual('GeneratorRadwsRestApiDeployment');
+  itExpects(execute(subject.restApiHumanReadableName)).toEqual('Generator radws');
+  itExpects(execute(subject.restApiUrlName, 'prod')).toEqual('GeneratorRadwsRestApiUrlProd');
 
   // resource-specific
   itExpects(execute(subject.restApiCollectionPathName, 'list item')).toEqual('ListItemRestApiCollection');
