@@ -122,7 +122,7 @@ module.exports = class extends withCloudFormationTemplates(Generator) {
       [resourcePermissionName]: lambdaPermission({
         restApiName: resourceApiName,
         httpMethod: method,
-        pathMatcher: (member) ? restApiMemberPathMatcher(resource) : restApiCollectionPathMatcher(resource),
+        pathMatcher: (member) ? restApiMemberPathMatcher(resource, throughResource) : restApiCollectionPathMatcher(resource, throughResource),
         functionName: resourceHandlerName
       })
     };
