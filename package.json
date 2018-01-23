@@ -7,7 +7,9 @@
     "email": "jeff@cuperman.net"
   },
   "files": [
-    "generators"
+    "conventions",
+    "generators",
+    "lib"
   ],
   "main": "generators/index.js",
   "keywords": [
